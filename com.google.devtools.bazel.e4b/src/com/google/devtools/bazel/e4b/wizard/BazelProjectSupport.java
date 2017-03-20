@@ -14,7 +14,9 @@
 
 package com.google.devtools.bazel.e4b.wizard;
 
+import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -91,6 +93,35 @@ public class BazelProjectSupport {
     project.setDescription(description, null);
   }
 
+
+  private static IPath recurAddSourceEntry(IPath root, IFolder base, String path,
+      List<IClasspathEntry> list, boolean topLevel) {
+    File dir = new File(root.toFile(), path);
+    if (dir.isDirectory()) {
+      ArrayList<IPath> ips = new ArrayList<>();
+      for (File f : dir.listFiles()) {
+        if (topLevel && f.getName().startsWith("bazel-")) {
+          continue;
+        }
+        if (f.isDirectory()) {
+          IPath ip = recurAddSourceEntry(root, base, path + "/" + f.getName(), list, false);
+          if (ip != null) {
+            ips.add(ip.removeFirstSegments(ip.segmentCount() - 1));
+          }
+        }
+      }
+      if (new File(dir, "BUILD").exists()) {
+        IPath workspacePath = base.getFullPath().append(path);
+        System.out.println(ips.toString());
+        list.add(JavaCore.newSourceEntry(workspacePath, ips.toArray(new IPath[0])));
+        System.out.println(workspacePath.toString());
+        return workspacePath.addTrailingSeparator();
+      }
+    }
+
+    return null;
+  }
+
   private static void createClasspath(IPath root, List<String> paths, IJavaProject javaProject)
       throws CoreException {
     String name = root.lastSegment();
@@ -100,8 +131,9 @@ public class BazelProjectSupport {
     }
     List<IClasspathEntry> list = new LinkedList<>();
     for (String path : paths) {
-      IPath workspacePath = base.getFullPath().append(path);
-      list.add(JavaCore.newSourceEntry(workspacePath));
+      recurAddSourceEntry(root, base, path, list, true);
+      // IPath workspacePath = base.getFullPath().append(path);
+      // list.add(JavaCore.newSourceEntry(workspacePath));
     }
     list.add(JavaCore.newContainerEntry(new Path(BazelClasspathContainer.CONTAINER_NAME)));
     // TODO(dmarting): we should add otherwise. Best way is to get the bootclasspath from Bazel.
