@@ -101,12 +101,16 @@ public class BazelProjectSupport {
       ArrayList<IPath> ips = new ArrayList<>();
       for (File f : dir.listFiles()) {
         if (topLevel && f.getName().startsWith("bazel-")) {
+          IPath ip = new Path((path.isEmpty() ? "" : (path + "/")) + f.getName() + "/");
+//              base.getFullPath().append(f.getName()).addTrailingSeparator();
+//          ip.removeFirstSegments(ip.segmentCount() - 1);
+          ips.add(ip);
           continue;
         }
         if (f.isDirectory()) {
           IPath ip = recurAddSourceEntry(root, base, path + "/" + f.getName(), list, false);
           if (ip != null) {
-            ips.add(ip.removeFirstSegments(ip.segmentCount() - 1));
+            ips.add(ip);
           }
         }
       }
@@ -115,7 +119,7 @@ public class BazelProjectSupport {
         System.out.println(ips.toString());
         list.add(JavaCore.newSourceEntry(workspacePath, ips.toArray(new IPath[0])));
         System.out.println(workspacePath.toString());
-        return workspacePath.addTrailingSeparator();
+        return new Path(path + "/");
       }
     }
 

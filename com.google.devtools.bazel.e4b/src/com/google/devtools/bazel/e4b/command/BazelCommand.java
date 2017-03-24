@@ -56,7 +56,7 @@ public class BazelCommand {
 
   private static final File ASPECT_WORKSPACE = getAspectWorkspace();
   private static final List<String> BUILD_OPTIONS =
-      ImmutableList.of("--experimental_interleave_loading_and_analysis", "--strategy=Javac=worker",
+      ImmutableList.of("--strategy=Javac=worker",
           "--noexperimental_check_output_files",
           "--aspects=tools/must/be/unique/e4b_aspect.bzl%e4b_aspect");
   private static final List<String> ASPECT_OPTIONS = ImmutableList
@@ -190,6 +190,13 @@ public class BazelCommand {
       return BazelCommand.this.runBazel(workspaceRoot,
           ImmutableList.<String>builder().add("test").add("--package_path", packagePath)
               .addAll(BUILD_OPTIONS).add(extraArgs).addAll(targets).build());
+    }
+    
+    public synchronized int runs(String target, String... extraArgs)
+        throws IOException, InterruptedException {
+      return BazelCommand.this.runBazel(workspaceRoot,
+          ImmutableList.<String>builder().add("run").add("--package_path", packagePath)
+              .addAll(BUILD_OPTIONS).add(extraArgs).add(target).build());
     }
 
     /**

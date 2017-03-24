@@ -43,7 +43,7 @@ public class BazelBuilder extends IncrementalProjectBuilder {
         }
       }
       instance.markAsDirty();
-      instance.build(Activator.getTargets(project));
+      instance.runs("//java:hi");//Activator.getTargets(project));
     } catch (BackingStoreException | IOException | InterruptedException e) {
       Activator.error("Failed to build " + project.getName(), e);
     }
