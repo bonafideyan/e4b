@@ -14,7 +14,14 @@
 
 package com.google.devtools.bazel.e4b;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 
@@ -23,19 +30,49 @@ import org.eclipse.core.runtime.CoreException;
  */
 public class ProjectNature implements IProjectNature {
 
-  public static final String NATURE_ID = "com.google.devtools.bazel.e4b.projectNature"; //$NON-NLS-1$
+  public static final String ID = "com.google.devtools.bazel.e4b.projectNature"; //$NON-NLS-1$
+  private IProject project;
 
   @Override
-  public void configure() throws CoreException {}
-
-  @Override
-  public void deconfigure() throws CoreException {}
-
-  @Override
-  public IProject getProject() {
-    return null;
+  public void configure() throws CoreException {
+    IProjectDescription desc = project.getDescription();
+    List<ICommand> commands = new ArrayList<ICommand>(Arrays.asList(desc.getBuildSpec()));
+    Iterator<ICommand> iterator = commands.iterator();
+    while (iterator.hasNext()) {
+      ICommand command = iterator.next();
+      if (ProjectNature.ID.equals(command.getBuilderName())) {
+        return;
+      }
+    }
+    ICommand newCommand = desc.newCommand();
+    newCommand.setBuilderName(ProjectNature.ID);
+    commands.add(newCommand);
+    desc.setBuildSpec(commands.toArray(new ICommand[0]));
+    project.setDescription(desc, null);
   }
 
   @Override
-  public void setProject(IProject project) {}
+  public void deconfigure() throws CoreException {
+    IProjectDescription desc = project.getDescription();
+    List<ICommand> commands = new ArrayList<ICommand>(Arrays.asList(desc.getBuildSpec()));
+    Iterator<ICommand> iterator = commands.iterator();
+    while (iterator.hasNext()) {
+      ICommand command = iterator.next();
+      if (ProjectNature.ID.equals(command.getBuilderName())) {
+        iterator.remove();
+      }
+    }
+    desc.setBuildSpec(commands.toArray(new ICommand[0]));
+    project.setDescription(desc, null);
+  }
+
+  @Override
+  public IProject getProject() {
+    return project;
+  }
+
+  @Override
+  public void setProject(IProject project) {
+    this.project = project;
+  }
 }

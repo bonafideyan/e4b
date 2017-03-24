@@ -56,7 +56,7 @@ public class BazelProjectSupport {
 
     IProject project = createBaseProject(projectName, location);
     try {
-      addNature(project, ProjectNature.NATURE_ID);
+      addNature(project, ProjectNature.ID);
       addNature(project, JavaCore.NATURE_ID);
       addSettings(project, workspaceRoot, targets);
       setBuilders(project);
@@ -102,8 +102,6 @@ public class BazelProjectSupport {
       for (File f : dir.listFiles()) {
         if (topLevel && f.getName().startsWith("bazel-")) {
           IPath ip = new Path((path.isEmpty() ? "" : (path + "/")) + f.getName() + "/");
-//              base.getFullPath().append(f.getName()).addTrailingSeparator();
-//          ip.removeFirstSegments(ip.segmentCount() - 1);
           ips.add(ip);
           continue;
         }
@@ -116,9 +114,7 @@ public class BazelProjectSupport {
       }
       if (new File(dir, "BUILD").exists()) {
         IPath workspacePath = base.getFullPath().append(path);
-        System.out.println(ips.toString());
         list.add(JavaCore.newSourceEntry(workspacePath, ips.toArray(new IPath[0])));
-        System.out.println(workspacePath.toString());
         return new Path(path + "/");
       }
     }
@@ -136,8 +132,6 @@ public class BazelProjectSupport {
     List<IClasspathEntry> list = new LinkedList<>();
     for (String path : paths) {
       recurAddSourceEntry(root, base, path, list, true);
-      // IPath workspacePath = base.getFullPath().append(path);
-      // list.add(JavaCore.newSourceEntry(workspacePath));
     }
     list.add(JavaCore.newContainerEntry(new Path(BazelClasspathContainer.CONTAINER_NAME)));
     // TODO(dmarting): we should add otherwise. Best way is to get the bootclasspath from Bazel.
