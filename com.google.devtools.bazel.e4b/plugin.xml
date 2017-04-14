@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.4"?>
 <plugin>
+
    <extension
          point="org.eclipse.jdt.core.classpathContainerInitializer">
       <classpathContainerInitializer
@@ -10,17 +10,17 @@
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
-    <wizard
-          class="com.google.devtools.bazel.e4b.wizard.BazelWizard"
-          icon="resources/icon.ico"
-          id="com.google.devtools.bazel.e4b.wizard.bazelWizard"
-          name="Import Bazel Workspace"
-          project="true">
-           <description>Import a list of sources from a Bazel workspace into a Java project</description>
-    </wizard>
+      <wizard
+            name="Import Bazel Workspace"
+            icon="resources/icon.ico"
+            class="com.google.devtools.bazel.e4b.wizard.BazelWizard"
+            project="true"
+            id="com.google.devtools.bazel.e4b.wizard.bazelWizard">
+         <description>
+         </description>
+      </wizard>
    </extension>
-   <extension
-         id="com.google.devtools.bazel.e4b.projectNature"
+   <extension id="a"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
@@ -31,9 +31,9 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
+            name="Bazel Plugin Preferences"
             class="com.google.devtools.bazel.e4b.preferences.BazelPreferencePage"
-            id="com.google.devtools.bazel.e4b.preferences"
-            name="Bazel Plugin Preferences">
+            id="com.google.devtools.bazel.e4b.preferences">
       </page>
    </extension>
    <extension
@@ -42,18 +42,24 @@
             class="com.google.devtools.bazel.e4b.preferences.BazelPreferenceInitializer">
       </initializer>
    </extension>
-   <extension
-         id="com.google.devtools.bazel.e4b.builder"
+   <extension id="b"
          point="org.eclipse.core.resources.builders">
       <builder
             callOnEmptyDelta="false"
-            hasNature="false"
             isConfigurable="false"
+            hasNature="false"
             supportsConfigurations="false">
          <run
                class="com.google.devtools.bazel.e4b.builder.BazelBuilder">
          </run>
       </builder>
+   </extension>
+   <extension
+         id="com.google.devtools.bazel.e4b.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            uri="fragment.e4xmi">
+      </fragment>
    </extension>
 
 </plugin>

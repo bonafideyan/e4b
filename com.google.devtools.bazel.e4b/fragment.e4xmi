@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_yQ_vwBeKEeeIwpqcNosWfA">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_HLWp0BeLEeeIwpqcNosWfA" featurename="commands" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Command" xmi:id="_SyJt0BeLEeeIwpqcNosWfA" elementId="com.google.devtools.bazel.e4b.command.hello" commandName="hello">
+      <parameters xmi:id="_pjeXQBeQEeeIwpqcNosWfA" elementId="com.google.devtools.bazel.e4b.commandparameter.0" name="Command Parameter 0"/>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_uP0xoBeQEeeIwpqcNosWfA" featurename="handlers" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Handler" xmi:id="_xQ-1gBeQEeeIwpqcNosWfA" elementId="com.google.devtools.bazel.e4b.handler.0" contributionURI="bundleclass://com.google.devtools.bazel.e4b/com.github.e4b.handlers.Hello" command="_SyJt0BeLEeeIwpqcNosWfA"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_eIgd4BeSEeeIwpqcNosWfA" featurename="menuContributions" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="menu:MenuContribution" xmi:id="_s8t5EBeSEeeIwpqcNosWfA" elementId="com.google.devtools.bazel.e4b.menucontribution.0" parentId="org.eclipse.ui.main.menu">
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_yXlmUBeSEeeIwpqcNosWfA" elementId="com.github.e4b.handlers.hello" label="asdfasdfasdf" command="_SyJt0BeLEeeIwpqcNosWfA"/>
+      <children xsi:type="menu:Menu" xmi:id="_OOygMBhjEeeH9_2H3skbiA" elementId="asdf" label="asfdasfd">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_Rk3EIBhjEeeH9_2H3skbiA" elementId="com.google.devtools.bazel.e4b.handledmenuitem.asffeaf" label="asffeaf" command="_SyJt0BeLEeeIwpqcNosWfA"/>
+      </children>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_zCyMcBhjEeeH9_2H3skbiA" featurename="trimContributions" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="menu:TrimContribution" xmi:id="_D66nMBhkEeeH9_2H3skbiA" elementId="com.google.devtools.bazel.e4b.trimcontribution.0" parentId="org.eclipse.ui.main.toolbar">
+      <children xsi:type="menu:ToolBar" xmi:id="_bU_E8BhkEeeH9_2H3skbiA" elementId="com.google.devtools.bazel.e4b.toolbar.0">
+        <children xsi:type="menu:HandledToolItem" xmi:id="_dZfTUBhkEeeH9_2H3skbiA" elementId="com.google.devtools.bazel.e4b.handledtoolitem.afsdfsdf" label="afsdfsdf" command="_SyJt0BeLEeeIwpqcNosWfA"/>
+      </children>
+    </elements>
+  </fragments>
+</fragment:ModelFragments>
